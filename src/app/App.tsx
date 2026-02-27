@@ -50,16 +50,26 @@ function AppContent() {
   });
 
   const formData = watch();
+  
+  const track = (eventName: string, params: Record<string, any> = {}) => {
+    // Safe: won't throw if GA isn't loaded yet
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", eventName, params);
+    }
+  };
 
   const onGenerate = handleSubmit((data) => {
+    track("generate_signature");
     const html = generateSignatureHTML(data);
     setHtmlSignature(html);
     setIsGenerated(true);
+    track("modal_opened_auto");
     setShowInstructions(true);
     toast.success(t.toast.signatureGenerated);
   });
 
   const handleCopy = async () => {
+    track("copy_html");
     try {
       // Use modern Clipboard API to copy HTML with proper formatting
       // This ensures email clients can paste the signature correctly
@@ -99,6 +109,7 @@ function AppContent() {
   };
 
   const handleDownload = () => {
+    track("download_html");
     const blob = new Blob([htmlSignature], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -116,6 +127,7 @@ function AppContent() {
   };
 
   const handleConfirmClear = () => {
+    track("clear_signature");
     setHtmlSignature("");
     setIsGenerated(false);
     setShowInstructions(false);
@@ -130,8 +142,11 @@ function AppContent() {
   };
 
   const toggleLanguage = () => {
+    track("toggle_language", { to: language === 'en' ? 'es' : 'en' });
     setLanguage(language === 'en' ? 'es' : 'en');
   };
+
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -227,7 +242,10 @@ function AppContent() {
                 </div>
 
                 <Button
-                  onClick={() => setShowInstructions(true)}
+                  onClick={() => {
+                    track("view_instructions");
+                    setShowInstructions(true);
+                  }}
                   variant="outline"
                   className="w-full"
                 >
