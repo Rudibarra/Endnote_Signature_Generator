@@ -22,7 +22,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
     <div className="bg-white p-4 rounded-lg border border-gray-200">
       {/* Main Container */}
       <div className="flex gap-4 items-start">
-        {/* Logo Placeholder - 150px x 150px */}
+        {/* Logo Placeholder - 75px x 75px */}
         <div className="shrink-0 size-[75px] bg-gray-200 rounded flex items-center justify-center overflow-hidden">
           {displayData.logoUrl ? (
             <img 
@@ -36,7 +36,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
             />
           ) : (
             <img 
-              src="https://placehold.co/150x150" 
+              src="https://placehold.co/75x75" 
               alt="Logo Placeholder" 
               className="w-full h-full object-contain"
             />
