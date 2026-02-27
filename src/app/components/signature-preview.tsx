@@ -23,7 +23,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
       {/* Main Container */}
       <div className="flex gap-4 items-start">
         {/* Logo Placeholder - 150px x 150px */}
-        <div className="shrink-0 size-[150px] bg-gray-200 rounded flex items-center justify-center overflow-hidden">
+        <div className="shrink-0 size-[75px] bg-gray-200 rounded flex items-center justify-center overflow-hidden">
           {displayData.logoUrl ? (
             <img 
               src={displayData.logoUrl} 
@@ -31,7 +31,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               className="w-full h-full object-contain"
               onError={(e) => {
                 // Fallback to placeholder if image fails to load
-                e.currentTarget.src = 'https://placehold.co/150x150';
+                e.currentTarget.src = 'https://placehold.co/75x75';
               }}
             />
           ) : (
