@@ -1,0 +1,126 @@
+import { SignatureData } from "../types/signature";
+
+function escapeHtml(text: string): string {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+export function generateSignatureHTML(data: SignatureData): string {
+  // SVG icons as data URIs for email compatibility
+  const emailIcon = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M13.3333 2.66667H2.66667C1.93029 2.66667 1.33333 3.26362 1.33333 4V12C1.33333 12.7364 1.93029 13.3333 2.66667 13.3333H13.3333C14.0697 13.3333 14.6667 12.7364 14.6667 12V4C14.6667 3.26362 14.0697 2.66667 13.3333 2.66667Z' stroke='%23364153' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14.6667 4.66667L8.68667 8.46667C8.48085 8.59562 8.24288 8.66401 8 8.66401C7.75712 8.66401 7.51915 8.59562 7.31333 8.46667L1.33333 4.66667' stroke='%23364153' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E`;
+  
+  const phoneIcon = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M14.6667 11.28V13.28C14.6674 13.4657 14.6294 13.6494 14.555 13.8196C14.4806 13.9897 14.3715 14.1424 14.2347 14.2679C14.0979 14.3934 13.9364 14.489 13.7605 14.5485C13.5846 14.608 13.3982 14.63 13.2133 14.6133C11.1619 14.3904 9.19133 13.6894 7.46 12.5667C5.84922 11.5431 4.48356 10.1774 3.46 8.56667C2.33332 6.82747 1.63216 4.84733 1.41333 2.78667C1.39667 2.60231 1.41858 2.41651 1.47767 2.24108C1.53675 2.06566 1.63171 1.90446 1.75651 1.76775C1.88131 1.63104 2.0332 1.52181 2.20253 1.44701C2.37185 1.37222 2.55489 1.33351 2.74 1.33333H4.74C5.06354 1.33015 5.37719 1.44472 5.62251 1.65569C5.86782 1.86666 6.02805 2.15963 6.07333 2.48C6.15775 3.12004 6.3143 3.74848 6.54 4.35333C6.6297 4.59195 6.64911 4.85128 6.59594 5.10059C6.54277 5.3499 6.41924 5.57874 6.24 5.76L5.39333 6.60667C6.34237 8.2757 7.7243 9.65763 9.39333 10.6067L10.24 9.76C10.4213 9.58076 10.6501 9.45723 10.8994 9.40406C11.1487 9.35089 11.4081 9.3703 11.6467 9.46C12.2515 9.6857 12.88 9.84225 13.52 9.92667C13.8438 9.97235 14.1396 10.1355 14.351 10.385C14.5624 10.6345 14.6748 10.9531 14.6667 11.28Z' stroke='%23364153' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E`;
+  
+  const websiteIcon = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M8 14.6667C11.6819 14.6667 14.6667 11.6819 14.6667 8C14.6667 4.3181 11.6819 1.33333 8 1.33333C4.3181 1.33333 1.33333 4.3181 1.33333 8C1.33333 11.6819 4.3181 14.6667 8 14.6667Z' stroke='%23364153' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8 1.33333C6.28816 3.13077 5.33333 5.51783 5.33333 8C5.33333 10.4822 6.28816 12.8692 8 14.6667C9.71184 12.8692 10.6667 10.4822 10.6667 8C10.6667 5.51783 9.71184 3.13077 8 1.33333Z' stroke='%23364153' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.33333 8H14.6667' stroke='%23364153' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E`;
+
+  return `
+<table cellpadding="0" cellspacing="0" border="0" style="font-family: 'Inter', Arial, sans-serif; max-width: 500px;">
+  <tr>
+    <td style="padding: 16px; background-color: #ffffff;">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td style="vertical-align: top; padding-right: 16px;">
+            <!-- Logo Placeholder or Image -->
+            ${data.logoUrl ? `
+            <img src="${escapeHtml(data.logoUrl)}" alt="Logo" width="150" height="150" style="display: block; max-width: 150px; max-height: 150px; object-fit: contain; border-radius: 4px;" />
+            ` : `
+            <img src="https://placehold.co/150x150" alt="Logo" width="150" height="150" style="display: block; max-width: 150px; max-height: 150px; object-fit: contain; border-radius: 4px;" />
+            `}
+          </td>
+          <td style="vertical-align: top;">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <!-- Name, Title, Company -->
+              ${data.fullName ? `
+              <tr>
+                <td style="font-size: 24px; line-height: 32px; font-weight: bold; color: #101828; padding-bottom: 0;">
+                  ${escapeHtml(data.fullName)}
+                </td>
+              </tr>
+              ` : ''}
+              ${data.jobTitle ? `
+              <tr>
+                <td style="font-size: 16px; line-height: 24px; color: #4a5565; padding-bottom: 0;">
+                  ${escapeHtml(data.jobTitle)}
+                </td>
+              </tr>
+              ` : ''}
+              ${data.company ? `
+              <tr>
+                <td style="font-size: 16px; line-height: 24px; color: #1e2939; font-weight: 600; padding-bottom: 8px;">
+                  ${escapeHtml(data.company)}
+                </td>
+              </tr>
+              ` : ''}
+              
+              <!-- Contact Information -->
+              ${data.email ? `
+              <tr>
+                <td style="padding-bottom: 4px;">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td style="vertical-align: middle; padding-right: 8px;">
+                        <img src="${emailIcon}" alt="" width="16" height="16" style="display: block;" />
+                      </td>
+                      <td style="vertical-align: middle;">
+                        <a href="mailto:${escapeHtml(data.email)}" style="font-size: 14px; line-height: 20px; color: #364153; text-decoration: none;">
+                          ${escapeHtml(data.email)}
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              ` : ''}
+              ${data.phone ? `
+              <tr>
+                <td style="padding-bottom: 4px;">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td style="vertical-align: middle; padding-right: 8px;">
+                        <img src="${phoneIcon}" alt="" width="16" height="16" style="display: block;" />
+                      </td>
+                      <td style="vertical-align: middle;">
+                        <a href="tel:${escapeHtml(data.phone)}" style="font-size: 14px; line-height: 20px; color: #364153; text-decoration: none;">
+                          ${escapeHtml(data.phone)}
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              ` : ''}
+              ${data.website ? `
+              <tr>
+                <td style="padding-bottom: 4px;">
+                  <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td style="vertical-align: middle; padding-right: 8px;">
+                        <img src="${websiteIcon}" alt="" width="16" height="16" style="display: block;" />
+                      </td>
+                      <td style="vertical-align: middle;">
+                        <a href="${data.website.startsWith('http') ? escapeHtml(data.website) : `https://${escapeHtml(data.website)}`}" style="font-size: 14px; line-height: 20px; color: #364153; text-decoration: none;" target="_blank">
+                          ${escapeHtml(data.website)}
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              ` : ''}
+            </table>
+          </td>
+        </tr>
+      </table>
+      
+      <!-- Bottom Border -->
+      <table cellpadding="0" cellspacing="0" border="0" style="margin-top: 16px; width: 100%;">
+        <tr>
+          <td style="height: 4px; background-color: #1e2939; border-radius: 2px;"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+  `.trim();
+}
